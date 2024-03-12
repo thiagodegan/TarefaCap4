@@ -1,7 +1,6 @@
 package br.com.fiapinhos.ShopAll.service;
 
 import br.com.fiapinhos.ShopAll.model.Clothing;
-import br.com.fiapinhos.ShopAll.model.Manufacturer;
 import br.com.fiapinhos.ShopAll.repository.ClothingRepository;
 
 import java.util.Scanner;
