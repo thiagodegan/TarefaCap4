@@ -9,92 +9,84 @@ public class MenuService {
     FoodService foodService = new FoodService(sc);
     DrinkService drinkService = new DrinkService(sc);
 
+    private int requestProductType() {
+        int option;
+
+        System.out.println("1 - Produto Eletrônico");
+        System.out.println("2 - Produto de Vestuário");
+        System.out.println("3 - Produto Alimentício");
+        System.out.println("4 - Bebida");
+        System.out.println("5 - Voltar");
+        System.out.print("Informe o tipo: ");
+        option = 0;
+        if (sc.hasNextInt()) {
+            option = sc.nextInt();
+            if (sc.hasNextLine()) {
+                sc.nextLine();
+            }
+        }
+
+        if (option == 0 || option > 5){
+            System.out.printf("Opção %d inválida!\n", option);
+            return requestProductType();
+        }
+
+        return option;
+    }
+
     private void menuCreate () {
         int option;
 
-        do {
-            System.out.println("\n*** Incluir Produto ***");
-            System.out.println("Qual o tipo de produto que vai incluir?");
-            System.out.println("1 - Produto Eletrônico");
-            System.out.println("2 - Produto de Vestuário");
-            System.out.println("3 - Produto Alimentício");
-            System.out.println("4 - Bebida");
-            System.out.println("5 - Voltar ao menu principal");
-            System.out.print("Informe o tipo: ");
-            option = 0;
+        System.out.println("\n*** Incluir Produto ***");
+        System.out.println("Qual o tipo de produto que vai incluir?");
+        option = requestProductType();
 
-            if (sc.hasNextInt()) {
-                option = sc.nextInt();
-                if (sc.hasNextLine()) {
-                    sc.nextLine();
-                }
-            }
+        switch (option) {
+            case 1:
+                electronicService.createProduct();
+                break;
+            case 2:
+                clothingService.createProduct();
+                break;
+            case 3:
+                foodService.createProduct();
+                break;
+            case 4:
+                drinkService.createProduct();
+                break;
+        }
 
-            switch (option) {
-                case 1:
-                    electronicService.createProduct();
-                    break;
-                case 2:
-                    clothingService.createProduct();
-                    break;
-                case 3:
-                    foodService.createProduct();
-                    break;
-                case 4:
-                    drinkService.createProduct();
-                    break;
-                case 5:
-                    break;
-                default:
-                    System.out.printf("Opção %d inválida!", option);
-                    break;
-            }
-
-        } while (option != 5);
+        if (option != 5) {
+            // FICA EM RECURSAO ATÉ QUE O USUÁRIO INFORME A OPÇÃO PARA VOLTAR
+            menuCreate();
+        }
     }
 
     private void menuList() {
         int option;
-        do {
-            System.out.println("\n*** Consultar Produto ***");
-            System.out.println("Qual o tipo de produto que deseja consultar?");
-            System.out.println("1 - Produto Eletrônico");
-            System.out.println("2 - Produto de Vestuário");
-            System.out.println("3 - Produto Alimentício");
-            System.out.println("4 - Bebida");
-            System.out.println("5 - Voltar ao menu principal");
-            System.out.print("Informe o tipo: ");
 
-            option = 0;
+        System.out.println("\n*** Consultar Produto ***");
+        System.out.println("Qual o tipo de produto que deseja consultar?");
+        option = requestProductType();
 
-            if (sc.hasNextInt()) {
-                option = sc.nextInt();
-                if (sc.hasNextLine()) {
-                    sc.nextLine();
-                }
-            }
-
-            switch (option) {
-                case 1:
-                    electronicService.showProducts();
-                    break;
-                case 2:
-                    clothingService.showProducts();
-                    break;
-                case 3:
-                    foodService.showProducts();
-                    break;
-                case 4:
-                    drinkService.showProducts();
-                    break;
-                case 5:
-                    break;
-                default:
-                    System.out.printf("Opção %d inválida!", option);
-                    break;
-            }
-
-        } while (option != 5);
+        switch (option) {
+            case 1:
+                electronicService.showProducts();
+                break;
+            case 2:
+                clothingService.showProducts();
+                break;
+            case 3:
+                foodService.showProducts();
+                break;
+            case 4:
+                drinkService.showProducts();
+                break;
+        }
+        if (option != 5) {
+            // FICA EM RECURSAO ATÉ QUE O USUÁRIO INFORME A OPCAO 5 PARA VOLTAR
+            menuList();
+        }
     }
     public void Start() {
         System.out.println("ShopAll inicializando...");
